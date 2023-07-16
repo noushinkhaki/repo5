@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+#
+loripsum:
+  url: https://loripsum.net/api/
+#
+kafka:
+  bootstrapServer: 127.0.0.1:9092
+  topic: words.processed
