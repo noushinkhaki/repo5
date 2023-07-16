@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "a2afbaff-d690-4be9-8b38-69c4fdcb72fe",
+		"name": "BetVictor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BetVictor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/betvictor/text?p=2&l=short",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"betvictor",
+						"text"
+					],
+					"query": [
+						{
+							"key": "p",
+							"value": "2"
+						},
+						{
+							"key": "l",
+							"value": "short"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
