@@ -2,18 +2,27 @@
 The service gets some texts from https://loripsum.net/ and analyses them in order to generate the following response:
 
 Response (JSON):
+
 {
+
 "freq_word": <most_frequent_word>
+
 "avg_paragraph_size":<avg_paragraph_size>
+
 "avg_paragraph_processing_time":<avg_paragraph_processing_time>
+
 "total_processing_time": <total_processing_time>
+
 }
 
 where:
 
 <most_frequent_word>- the word that was the most frequent in the paragraphs
+
 <avg_paragraph_size> - the average size of a paragraph
+
 <avg_paragraph_processing_time> - the average time spent analyzing a paragraph
+
 <total_processing_time> - total processing time to generate the final response
 
 Here is a guide to deploy and run the service:
