@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,14 +31,14 @@ public class TextAnalyserControllerTest {
 
     @Test
     void testAnalyseText() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/betvictor/text")
+        var resultActions = mockMvc.perform(get("/betvictor/text")
                 .param("p", "2")
                 .param("l", "short"))
                 .andExpect(status().isOk());
-        MvcResult mvcResult = resultActions.andReturn();
+        var mvcResult = resultActions.andReturn();
         assertNotNull(mvcResult.getResponse());
-        String json = mvcResult.getResponse().getContentAsString();
-        TextAnalyserResponse response = new ObjectMapper().readValue(json, TextAnalyserResponse.class);
+        var json = mvcResult.getResponse().getContentAsString();
+        var response = new ObjectMapper().readValue(json, TextAnalyserResponse.class);
         assertNotNull(response.getFreq_word());
         assertNotNull(response.getAvg_paragraph_size());
         assertNotNull(response.getAvg_paragraph_processing_time());
@@ -49,26 +47,26 @@ public class TextAnalyserControllerTest {
 
     @Test
     void testAnalyseTextInvalidParam() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/betvictor/text")
+        var resultActions = mockMvc.perform(get("/betvictor/text")
                 .param("p", "2")
                 .param("l", "invalid"))
                 .andExpect(status().isBadRequest());
-        MvcResult mvcResult = resultActions.andReturn();
+        var mvcResult = resultActions.andReturn();
         assertNotNull(mvcResult.getResponse());
-        String json = mvcResult.getResponse().getContentAsString();
-        ErrorResponse errorResponse = new ObjectMapper().readValue(json, ErrorResponse.class);
+        var json = mvcResult.getResponse().getContentAsString();
+        var errorResponse = new ObjectMapper().readValue(json, ErrorResponse.class);
         assertTrue(errorResponse.getMessage().contains("Invalid \"l\" parameter"));
     }
 
     @Test
     void testAnalyseTextMissingParam() throws Exception {
-        ResultActions resultActions = mockMvc.perform(get("/betvictor/text")
+        var resultActions = mockMvc.perform(get("/betvictor/text")
                 .param("p", "2"))
                 .andExpect(status().isBadRequest());
-        MvcResult mvcResult = resultActions.andReturn();
+        var mvcResult = resultActions.andReturn();
         assertNotNull(mvcResult.getResponse());
-        String json = mvcResult.getResponse().getContentAsString();
-        ErrorResponse errorResponse = new ObjectMapper().readValue(json, ErrorResponse.class);
+        var json = mvcResult.getResponse().getContentAsString();
+        var errorResponse = new ObjectMapper().readValue(json, ErrorResponse.class);
         assertTrue(errorResponse.getMessage().contains("Missing parameter"));
     }
 }

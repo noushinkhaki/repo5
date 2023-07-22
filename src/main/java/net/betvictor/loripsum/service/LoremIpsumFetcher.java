@@ -24,16 +24,16 @@ public class LoremIpsumFetcher {
 
     public String getText(int p, String l) {
 
-        StringBuilder response = new StringBuilder();
+        var response = new StringBuilder();
 
         try {
-            URL url = new URL(loripsumSetting.getUrl() + p + "/" + l);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            var url = new URL(loripsumSetting.getUrl() + p + "/" + l);
+            var connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(REQUEST_METHOD);
             int responseCode = connection.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     response.append(line);

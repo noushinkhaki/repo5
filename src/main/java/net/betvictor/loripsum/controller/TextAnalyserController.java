@@ -42,27 +42,27 @@ public class TextAnalyserController {
     public ResponseEntity<TextAnalyserResponse> analyseText(@RequestParam(name = "p", required = true) String p,
                                                             @RequestParam(name = "l", required = true) String l) {
 
-        Map<Integer, String> textMap = new HashMap<>();
-        TextAnalyserResponse response = new TextAnalyserResponse();
+        var textMap = new HashMap<Integer, String>();
+        var response = new TextAnalyserResponse();
 
-        if (!Stream.of(ParagraphLength.values()).anyMatch(paragraphLength -> paragraphLength.getValue().equals(l))) {
+        if (Stream.of(ParagraphLength.values()).noneMatch(paragraphLength -> paragraphLength.getValue().equals(l))) {
             throw new InvalidParameterException("The value of \"l\" is invalid, it should be one of these: " +
                     "short, medium, long, verylong");
         }
 
-        for (int i = 1; i <= Integer.valueOf(p); i++) {
+        for (int i = 1; i <= Integer.parseInt(p); i++) {
             String text = loremIpsumFetcher.getText(i, l);
             textMap.put(i, text);
         }
-        Instant startTime = Instant.now();
+        var startTime = Instant.now();
 
         response = textAnalyserService.analyseText(textMap, response);
 
-        Instant endTime = Instant.now();
+        var endTime = Instant.now();
 
         response.setTotal_processing_time(String.valueOf(Duration.between(startTime, endTime).toMillis()));
 
-        String kafkaMessage = getJson(response);
+        var kafkaMessage = getJson(response);
 
         kafkaProducerService.produce(kafkaMessage);
 
@@ -71,8 +71,8 @@ public class TextAnalyserController {
     }
 
     private String getJson(TextAnalyserResponse response) {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = "";
+        var mapper = new ObjectMapper();
+        var json = "";
         try {
             json = mapper.writeValueAsString(response);
         } catch (JsonProcessingException e) {

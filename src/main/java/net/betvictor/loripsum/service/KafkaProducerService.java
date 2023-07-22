@@ -17,7 +17,7 @@ public class KafkaProducerService {
     KafkaSettings kafkaSettings;
 
     public void produce(String message) {
-        Properties properties = new Properties();
+        var properties = new Properties();
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaSettings.getBootstrapServer());
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

@@ -10,3 +10,9 @@ loripsum:
 kafka:
   bootstrapServer: 127.0.0.1:9092
   topic: words.processed
+  groupId: test-consumer-group
+#
+spring:
+  h2:
+    console:
+      enabled: true

@@ -32,7 +32,7 @@ class TextAnalyserServiceTest {
 
     @Test
     void testGenerateText2() {
-        TextAnalyserResponse response = new TextAnalyserResponse();
+        var response = new TextAnalyserResponse();
         response = service.analyseText(textMap, response);
         assertNotNull(response);
         assertEquals(FREQUENT_EXPECTED_WORD, response.getFreq_word());

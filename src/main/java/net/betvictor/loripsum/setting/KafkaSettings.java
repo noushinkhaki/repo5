@@ -10,6 +10,8 @@ public class KafkaSettings {
     private String bootstrapServer;
     private String topic;
 
+    private String groupId;
+
     public String getBootstrapServer() {
         return bootstrapServer;
     }
@@ -24,5 +26,13 @@ public class KafkaSettings {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "BetVictor",
+			"name": "/BetVictor/text",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -30,6 +30,26 @@
 							"key": "l",
 							"value": "short"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/betvictor/history",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/betvictor/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"betvictor",
+						"history"
 					]
 				}
 			},

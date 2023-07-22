@@ -17,7 +17,7 @@ public class TextAnalyserService {
 
     public TextAnalyserResponse analyseText(Map<Integer, String> textMap, TextAnalyserResponse response) {
 
-        StringBuilder text = new StringBuilder();
+        var text = new StringBuilder();
 
         for (Map.Entry<Integer,String> entry : textMap.entrySet()) {
             text.append(entry.getValue());
@@ -25,23 +25,23 @@ public class TextAnalyserService {
 
         LOGGER.info("The whole text is: " + "\n" + text.toString());
 
-        String[] paragraphs = text.toString().split("</p>");
+        var paragraphs = text.toString().split("</p>");
         Map<Integer, String> mostFrequentWordMapRes = new HashMap<>();
-        Map<Integer, String> mostFrequentWordMapPerParagraph = new HashMap<>();
+        var mostFrequentWordMapPerParagraph = new HashMap<Integer, String>();
         double sumParagraphSize = 0;
         double sumParagraphProcessingTime = 0;
 
         for (int i = 0; i < paragraphs.length; i++) {
             LOGGER.debug("Processing paragraph[" + i + "]:" + paragraphs[i]);
-            Instant startTime = Instant.now();
+            var startTime = Instant.now();
             sumParagraphSize += paragraphs[i].length();
-            String[] words = paragraphs[i].split(" ");
-            String[] refinedWords = refineWords(words);
+            var words = paragraphs[i].split(" ");
+            var refinedWords = refineWords(words);
             mostFrequentWordMapRes = findMostFrequentWordInParagraph(refinedWords);
             mostFrequentWordMapPerParagraph.put(i, mostFrequentWordMapRes.entrySet().stream().findFirst().get().getKey()
                     + "/" + mostFrequentWordMapRes.entrySet().stream().findFirst().get().getValue());
-            Instant endTime = Instant.now();
-            Duration paragraphProcessingTime = Duration.between(startTime, endTime);
+            var endTime = Instant.now();
+            var paragraphProcessingTime = Duration.between(startTime, endTime);
             sumParagraphProcessingTime += paragraphProcessingTime.toMillis();
         }
         response.setAvg_paragraph_size(String.valueOf(sumParagraphSize/paragraphs.length));
@@ -50,7 +50,7 @@ public class TextAnalyserService {
     }
 
     private Map<Integer, String> findMostFrequentWordInParagraph(String[] refinedWords) {
-        Map<String, Integer> wordFrequencyMap = new HashMap<>();
+        var wordFrequencyMap = new HashMap<String, Integer>();
         for (String word : refinedWords) {
             if (wordFrequencyMap.containsKey(word)) {
                 wordFrequencyMap.put(word, wordFrequencyMap.get(word) + 1);
@@ -58,7 +58,7 @@ public class TextAnalyserService {
                 wordFrequencyMap.put(word, 1);
             }
         }
-        String mostFrequentWord = "";
+        var mostFrequentWord = "";
         int maxFrequency = 0;
         for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
             if (entry.getValue() > maxFrequency) {
@@ -66,7 +66,7 @@ public class TextAnalyserService {
                 maxFrequency = entry.getValue();
             }
         }
-        Map<Integer, String> result = new HashMap<>();
+        var result = new HashMap<Integer, String>();
         result.put(maxFrequency, mostFrequentWord);
         return result;
     }
@@ -74,7 +74,7 @@ public class TextAnalyserService {
     private String[] refineWords(String[] words) {
         for (int i = 0; i < words.length; i++) {
             if (words[i].startsWith("<p>")) {
-                words[i] = words[i].substring(3, words[i].length());
+                words[i] = words[i].substring(3);
             }
             if (words[i].endsWith(".") || words[i].endsWith(",") || words[i].endsWith(";") || words[i].endsWith("?")) {
                 words[i] = words[i].substring(0, words[i].length()-1);
@@ -85,16 +85,17 @@ public class TextAnalyserService {
     }
 
     private TextAnalyserResponse findMostFrequentWord(Map<Integer, String> mostFrequentWordMapPerParagraph, TextAnalyserResponse response) {
-        String mostFrequentWord = "";
+        var mostFrequentWord = "";
         int maxOccurancy = 0;
         for (Map.Entry<Integer, String> entry : mostFrequentWordMapPerParagraph.entrySet()) {
-            String[] values = entry.getValue().split("/");
-            if (Integer.valueOf(values[0]) > maxOccurancy) {
-                maxOccurancy = Integer.valueOf(values[0]);
+            var values = entry.getValue().split("/");
+            if (Integer.parseInt(values[0]) > maxOccurancy) {
+                maxOccurancy = Integer.parseInt(values[0]);
                 mostFrequentWord = values[1];
             }
         }
         response.setFreq_word(mostFrequentWord);
+        LOGGER.info("Most frequent word is: " + mostFrequentWord);
         response.setOccuranceNum(maxOccurancy);
         return response;
     }
